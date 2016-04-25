@@ -1,0 +1,6 @@
+<resources>
+    <!-- Name of the Application - This name will appear at the top of the app unless overwritten -->
+    <string name="app_name">Goosee 故事</string>
+    <string name="BookItemObject">BookItemObject</string>
+    <string name="TagCardViewBookItem">TagCardViewBookItem</string>
+</resources>
