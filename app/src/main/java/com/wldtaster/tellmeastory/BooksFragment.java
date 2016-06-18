@@ -10,20 +10,37 @@ import android.view.ViewGroup;
 
 
 public class BooksFragment extends Fragment {
+	private static final String TAG = "BooksFragment"; //Tag to identify the source of the errors
 
-    public BooksFragment() {
-        // Required empty public constructor
-    }
+	public BooksFragment() {
+		// Required empty public constructor
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_books, container, false);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        RecyclerView bookRecycler = (RecyclerView) v.findViewById(R.id.Book_Recycler_View);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	                         Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_books, container, false);
+		LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+		RecyclerView bookRecycler = (RecyclerView) v.findViewById(R.id.Book_Recycler_View);
 
-        /*
-        bookRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
+		bookRecycler.setLayoutManager(layoutManager);
+		BookRecyclerViewAdapter adapter = new BookRecyclerViewAdapter();
+		bookRecycler.setAdapter(adapter);
+
+	    /*
+	    bookRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                recyclerView.getParent().requestDisallowInterceptTouchEvent(true);
+	            Log.d(TAG, "<<onScrollStateChanged...>>");
+            }
+        }); */
+
+
+		/*
+		bookRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
                 int action = e.getAction();
@@ -42,16 +59,10 @@ public class BooksFragment extends Fragment {
             @Override
             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
             }
-        }); */
+        });
+		*/
 
 
-
-
-        bookRecycler.setLayoutManager(layoutManager);
-        BookRecyclerViewAdapter adapter = new BookRecyclerViewAdapter();
-        bookRecycler.setAdapter(adapter);
-
-        /*In the line below should we return the view 'v' or the RecyclerView 'bookRecycler'??*/
-        return v;
-    }
+		return v;
+	}
 }

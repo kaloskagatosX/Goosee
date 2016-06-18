@@ -17,8 +17,8 @@
                                     card_view:contentPadding="5dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:background="#e8f5cb"
         android:orientation="vertical">
 
@@ -36,27 +36,32 @@
             android:typeface="normal"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:background="#f0e9e7"
             android:orientation="horizontal">
+
             <ImageView
                 android:id="@+id/imageViewBookImage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:padding="2dp"/>
 
 
             <TextView
                 android:id="@+id/textViewBookDescription"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:background="#f0e9e7"
+                android:fadeScrollbars="false"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:scrollIndicators="right"
+                android:scrollbars="vertical"
                 android:text="This example will take you through simple steps to show how to create your own Android application using Table Layout. Follow the following steps to modify the Android application we created in Hello World Example chapter −"
                 android:textStyle="italic"/>
+
+
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -17,95 +17,118 @@ import java.util.ArrayList;
  */
 
 class BookRecyclerViewAdapter extends RecyclerView.Adapter<BookRecyclerViewAdapter.ViewHolder> {
+	private static final String TAG = "BookRecyclerViewAdapter"; //Tag to identify the source of the errors
+	static private ArrayList<BookItem> BookItems;
+	private BooksAndSections listOfBooksAndSections;
+	//static private int TagCardViewBookItem=0;
 
-    private BooksAndSections listOfBooksAndSections;
-    static private ArrayList<BookItem> BookItems;
-    //static private int TagCardViewBookItem=0;
+	/**
+	 * Class prototype
+	 */
+	public BookRecyclerViewAdapter() {
+		listOfBooksAndSections = new BooksAndSections();
+		BookItems = listOfBooksAndSections.getBookItems();
+	}
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        //Define the view holder
-        private CardView cardView;
-        //public ClipData.Item currentItem;
+	@Override
+	public BookRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		//Create a new view and inflate the layout 'R.layout.card_book'
+		CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_book, parent, false);
+		return new ViewHolder(cv);
+	}
 
+	@Override
+	public void onBindViewHolder(ViewHolder holder, final int position) {
+		//Set the values inside a given view
+		CardView cardView = holder.cardView;
 
-        /**
-         * Each ViewHolder will display a CardView
-         */
-        public ViewHolder(CardView v) {
-            super(v);
-            cardView = v;
+		BookItem cardViewBookItem = BookItems.get(position);
 
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+		cardView.setTag(R.string.TagCardViewBookItem, cardViewBookItem); //Store the BookItem object into the CardView at index 'TagCardViewBookItem'
 
-                    BooksAndSections tmpBookCollection = new BooksAndSections();
-                    BookItem cardViewBookItem = (BookItem) v.getTag(R.string.TagCardViewBookItem); //Retrieve the BookItem object from the CardView Tag
-                    ArrayList<SectionItem> numberOfSectionsInSelectedBook = tmpBookCollection.getSectionItems(cardViewBookItem.getBookID());
-
-                    if (numberOfSectionsInSelectedBook.size() < 1) {
-                            Toast.makeText(App.context(),"There are no sections in the selected book!", Toast.LENGTH_SHORT).show();
-                    } else {
-
-                        Intent tmpIntent = new Intent(App.context(), SectionActivity.class);
-                        tmpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                        tmpIntent.putExtra(Constants.bookItemObject, cardViewBookItem);
-                        App.context().startActivity(tmpIntent);
-                    }
-                }
-            });
-
-        }
-    }
-
-    /**
-     * Class prototype
-     */
-    public BookRecyclerViewAdapter() {
-        listOfBooksAndSections = new BooksAndSections();
-        BookItems = listOfBooksAndSections.getBookItems();
-    }
+		BookItem tmpCardViewBookItem = (BookItem) cardView.getTag(R.string.TagCardViewBookItem);
 
 
-    @Override
-    public BookRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //Create a new view and inflate the layout 'R.layout.card_book'
-        CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_book, parent, false);
-        return new ViewHolder(cv);
-    }
+		ImageView imageView = (ImageView) cardView.findViewById(R.id.imageViewBookImage);
+		imageView.setImageResource(BookItems.get(position).getBookPhotoID());
+
+		TextView textViewBookName_EN = (TextView) cardView.findViewById(R.id.textViewBookName_EN);
+		textViewBookName_EN.setText(BookItems.get(position).getBookName_EN() + " (" + BookItems.get(position).getBookName_HK() + ")");
 
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        //Set the values inside a given view
-        CardView cardView = holder.cardView;
+		TextView textViewBookDescription = (TextView) cardView.findViewById(R.id.textViewBookDescription);
+		textViewBookDescription.setText(BookItems.get(position).getBookDescription());
+		//textViewBookDescription.setVerticalScrollBarEnabled(true);
 
-        BookItem cardViewBookItem = BookItems.get(position);
-        //TODO Line below does not seem to work!
-        String Totototo = cardViewBookItem.getBookDescription();
+		/*
+		textViewBookDescription.setMovementMethod(new ScrollingMovementMethod());
+		textViewBookDescription.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
 
-        //TODO Line below does not seem to work!
-        cardView.setTag(R.string.TagCardViewBookItem, cardViewBookItem); //Store the BookItem object into the CardView at index 'TagCardViewBookItem'
-
-        BookItem tmpCardViewBookItem = (BookItem) cardView.getTag(R.string.TagCardViewBookItem);
+					v.getParent().requestDisallowInterceptTouchEvent(true);
 
 
-        ImageView imageView = (ImageView) cardView.findViewById(R.id.imageViewBookImage);
-        imageView.setImageResource(BookItems.get(position).getBookPhotoID());
+				return false;
+			}
 
-        TextView textViewBookName_EN = (TextView) cardView.findViewById(R.id.textViewBookName_EN);
-        textViewBookName_EN.setText(BookItems.get(position).getBookName_EN() + " (" + BookItems.get(position).getBookName_HK() + ")");
+		});
+
+		textViewBookDescription.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+			@Override
+			public void onScrollStateChanged(TextView textView, int newState) {
+				//super.onScrollStateChanged(textView, newState);
+				textView.getParent().requestDisallowInterceptTouchEvent(true);
+				Log.d(TAG, "<<onScrollStateChanged...>>");
+			}
+		}); */
+
+	}
+
+	@Override
+	public int getItemCount() {
+		//Return the number of items in the data set
+		try {
+			return BookItems.size();
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	public static class ViewHolder extends RecyclerView.ViewHolder {
+		//Define the view holder
+		private CardView cardView;
+		//public ClipData.Item currentItem;
 
 
-        TextView textViewBookDescription = (TextView) cardView.findViewById(R.id.textViewBookDescription);
-        textViewBookDescription.setText(BookItems.get(position).getBookDescription());
+		/**
+		 * Each ViewHolder will display a CardView
+		 */
+		public ViewHolder(CardView v) {
+			super(v);
+			cardView = v;
 
-    }
+			cardView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
 
-    @Override
-    public int getItemCount() {
-        //Return the number of items in the data set
-        return BookItems.size();
-    }
+					BooksAndSections tmpBookCollection = new BooksAndSections();
+					BookItem cardViewBookItem = (BookItem) v.getTag(R.string.TagCardViewBookItem); //Retrieve the BookItem object from the CardView Tag
+					ArrayList<SectionItem> numberOfSectionsInSelectedBook = tmpBookCollection.getSectionItems(cardViewBookItem.getBookID());
+
+					if (numberOfSectionsInSelectedBook.size() < 1) {
+						Toast.makeText(App.context(), "There are no sections in the selected book!", Toast.LENGTH_SHORT).show();
+					} else {
+
+						Intent tmpIntent = new Intent(App.context(), SectionActivity.class);
+						tmpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+						tmpIntent.putExtra(Constants.bookItemObject, cardViewBookItem);
+						App.context().startActivity(tmpIntent);
+					}
+				}
+			});
+
+		}
+	}
 }
