@@ -8,7 +8,7 @@ package com.wldtaster.tellmeastory;
  * @since 09/04/2016
  */
 public final class Constants {
-	public static final String LibraryDatabaseName = "HKStories_0000021.db";
+	public static final String LibraryDatabaseName = "HKStories_0000023.db";
 	/**
 	 * Filename of the database which contains the story data (Books and Sections details)
 	 */
